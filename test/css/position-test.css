@@ -1,0 +1,78 @@
+.position-test-1 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+}
+.position-test-2 {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  bottom: 10px;
+  left: 20px;
+}
+.position-test-3 {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  bottom: 30px;
+  left: 20px;
+}
+.position-test-4 {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  bottom: 30px;
+  left: 40px;
+}
+.position-test-5 {
+  position: absolute !important;
+  top: 10px !important;
+  right: 20px !important;
+  bottom: 30px !important;
+  left: 40px !important;
+}
+.position-test-named-params-1 {
+  position: absolute;
+  top: 0;
+}
+.position-test-named-params-2 {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.position-test-named-params-3 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+.position-test-named-params-4 {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  top: 0 !important;
+}
+.position-test-named-params-5 {
+  position: absolute;
+  top: 10px;
+}
+.position-test-named-params-6 {
+  position: absolute;
+  bottom: 0;
+  top: 20px;
+}
+.position-test-named-params-7 {
+  position: absolute !important;
+  right: 10px !important;
+  left: 20px !important;
+  bottom: 0 !important;
+}
+.position-test-named-params-8 {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  right: 20px;
+  bottom: 40px;
+}

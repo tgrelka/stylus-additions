@@ -1,0 +1,76 @@
+relative( $args... )
+    -pos( relative, $args )
+
+fixed( $args... )
+    -pos( fixed, $args )
+
+absolute( $args... )
+    -pos( absolute, $args )
+
+sticky( $args... )
+    -pos( sticky, $args )
+
+-pos( $pos, $args )
+    error('Please supply at least one argument.') if $args == null
+    $importance = last( $args ) == !important ? pop( $args ) : null
+    $props = top right bottom left $pos == absolute ? clip : null
+    $propPairs = {}
+    $propPairs[position] = $pos
+    $propInArgs = false
+    $propInArgs = $propInArgs ? true : $arg in $props for $arg in $args
+    if $propInArgs
+        $curProp = null
+        for $arg, $index in $args
+            if $index == 0
+                unless $arg in $props
+                    error('When using named parameters with the position mixin you must start with a valid property name.')
+            if $index < length( $args ) - 1
+                if $arg in $props
+                    if $curProp
+                        $propPairs[$curProp] = 0 unless $curProp == clip
+                    $curProp = $arg
+                else
+                    if $curProp == null
+                        error('When using named parameters with the position mixin you cannot have two consecutive values.')
+                    $propPairs[$curProp] = $arg
+                    $curProp = null
+            else
+                if $arg in $props
+                    if $curProp
+                        $propPairs[$curProp] = 0 unless $curProp == clip
+                    $propPairs[$arg] = 0 unless $arg == clip
+                else
+                    if $curProp == null
+                        error('When using named parameters with the position mixin you cannot have two consecutive values.')
+                    $propPairs[$curProp] = $arg
+                    $curProp = null
+    else
+        if length( $args ) == 1
+            $propPairs[top] = $args[0]
+            $propPairs[right] = $args[0]
+            $propPairs[bottom] = $args[0]
+            $propPairs[left] = $args[0]
+        else if length( $args ) == 2
+            $propPairs[top] = $args[0]
+            $propPairs[right] = $args[1]
+            $propPairs[bottom] = $args[0]
+            $propPairs[left] = $args[1]
+        else if length( $args ) == 3
+            $propPairs[top] = $args[0]
+            $propPairs[right] = $args[1]
+            $propPairs[bottom] = $args[2]
+            $propPairs[left] = $args[1]
+        else if length( $args ) == 4
+            $propPairs[top] = $args[0]
+            $propPairs[right] = $args[1]
+            $propPairs[bottom] = $args[2]
+            $propPairs[left] = $args[3]
+        else if length( $args ) == 5 && clip in $props
+            $propPairs[top] = $args[0]
+            $propPairs[right] = $args[1]
+            $propPairs[bottom] = $args[2]
+            $propPairs[left] = $args[3]
+            $propPairs[clip] = $args[4]
+        else
+            error('When using the position mixin with shorthand values you must use at least one and a maximum of four (five with "position:absolute") values.')
+    {$key}: $value $importance for $key, $value in $propPairs
