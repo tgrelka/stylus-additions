@@ -1,0 +1,34 @@
+border-radius( $args... )
+    $importance = last( $args ) == !important ? pop( $args ) : null
+    $props = border-top-left-radius border-top-right-radius border-bottom-right-radius border-bottom-left-radius
+    $sides = { top: 0, right: 1, bottom: 2, left: 3 }
+    $edges = { top-left: 0, top-right: 1, bottom-right: 2, bottom-left: 3 }
+    $propPairs = {}
+    $propInArgs = false
+    $propInArgs = $propInArgs ? true : $arg in $sides || $arg in $edges for $arg in $args
+    if $propInArgs
+        $curProps = ()
+        for $arg, $index in $args
+            if $index == 0
+                unless $arg in $sides || $arg in $edges
+                    error( 'When using named parameters with the border-radius mixin you must begin with a valid side or edge.' )
+            if $index < length( $args ) - 1
+                if $arg in $sides
+                    append( $curProps, $props[$sides[$arg]] )
+                    append( $curProps, $props[$sides[$arg] - 3] )
+                else if $arg in $edges
+                    append( $curProps, $props[$edges[$arg]] )
+                else
+                    if $curProps == ()
+                        error( 'When using named parameters with the border-radius mixin you cannot have two consecutive numeric values.' )
+                    $propPairs[$prop] = $arg for $prop in $curProps
+                    $curProps = ()
+            else
+                if $arg in $sides || $arg in $edges
+                    error( 'When using named parameters with the border-radius mixin you must end with a numeric value.' )
+                if $curProps == ()
+                    error( 'When using named parameters with the border-radius mixin you cannot have two consecutive numeric values.' )
+                $propPairs[$prop] = $arg for $prop in $curProps
+    else
+        $propPairs['border-radius'] = $args
+    {$key}: $value $importance for $key, $value in $propPairs
