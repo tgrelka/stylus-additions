@@ -1,0 +1,15 @@
+arrow( $args... )
+    $importance = last( $args ) == !important ? pop( $args ) : null
+    $propPairs = { width: 0, height: 0 }
+    $propPairsBefore = {}
+    $propPairsAfter = {}
+    for $arg, $index in $args
+        if $index == 0
+            $dirs = top right bottom left
+            $dirsInverse = { top: bottom, right: left, bottom: top, left: right }
+            $dirsRotated = { top: left, right: top, bottom: right, left: bottom }
+            error( 'The first parameter of the arrow property must be the direction.' ) unless $arg in $dirs
+            $propPairs[$dirsInverse[$arg]] = 100%
+            $propPairs[$dirsRotated[$arg]] = 50%
+    &:after, &:before
+        {$key}: $value $importance for $key, $value in $propPairs
